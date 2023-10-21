@@ -40,10 +40,11 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
   /* req.body should look like this...
     {
-      product_name: "Basketball",
+      product_name: "Swimwear",
       price: 200.00,
       stock: 3,
       tagIds: [1, 2, 3, 4]
+      category_id: 2
     }
   */
   try {
@@ -92,7 +93,6 @@ router.put("/:id", async (req, res) => {
           tag_id,
         };
       });
-      console.log(newProductTags);
       // find out all the tags that will be removed
       const removeProductTagIds = productTagIds.filter(
         (tagId) => !req.body.tagIds.includes(tagId)
@@ -171,7 +171,7 @@ router.delete("/:id", async (req, res) => {
       where: { product_id: req.params.id },
     });
     const productTagsIdPk = productTags.map(({ id }) => id);
-    // delete all producttags id that matches the productTagsIdPk
+    // delete all producttags that matches the productTagsIdPk
     const productDelete = await ProductTag.destroy({
       where: { id: productTagsIdPk },
     });
