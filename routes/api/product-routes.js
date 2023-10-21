@@ -74,6 +74,11 @@ router.put("/:id", async (req, res) => {
     const product = await Product.update(req.body, {
       where: { id: req.params.id },
     });
+    if (!product[0]) {
+      return res
+        .status(404)
+        .json({ message: "No prodcut can be found with that id!" });
+    }
     // check if there is tagIds in the update body
     if (req.body.tagIds && req.body.tagIds.length) {
       // find all the tagid that is associated with this product, productTags will be an array with an object as individual element.
